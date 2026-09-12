@@ -18,12 +18,20 @@ app.get("/", (req,res)=>{
 
 app.use("/products", productRoutes);
 
-mongoose.connect(process.env.MONGO_URI)
+const mongoOptions = {};
+
+if (process.env.MONGO_TLS_ALLOW_INVALID_CERTIFICATES === "true") {
+    mongoOptions.tlsAllowInvalidCertificates = true;
+}
+
+mongoose.connect(process.env.MONGO_URI, mongoOptions)
 .then(()=>{
     console.log("MongoDB connected");
 
-    app.listen(process.env.PORT || 5000, ()=>{
-        console.log("server running on port 5000");
+    const port = process.env.PORT || process.env.port || 5000;
+
+    app.listen(port, ()=>{
+        console.log(`server running on port ${port}`);
     });
 })
 .catch((error)=>{

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema({
 
-    productName: {
+    name: {
         type: String,
         required: true,
         unique: true,
@@ -14,13 +14,13 @@ const productSchema = new mongoose.Schema({
         required: true,
         min: 0.01
     },
-    Stock: {
+    stock: {
         type: Number,
         required: true,
         min: 0,
         default: 0
     },
 
-});
+}, { timestamps: true });
 
-module.exports = mongoose.model("product", productSchema);
+module.exports = mongoose.model("Product", productSchema);
