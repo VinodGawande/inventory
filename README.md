@@ -1,106 +1,65 @@
-# Inventory Management System
+Inventory Management System
 
-REST API to manage product inventory using Node.js, Express.js, MongoDB, and Mongoose.
+This project is a simple backend API for managing product stock. It allows you to create products, view products, purchase items, restock items, and check product history.
 
-## Features
+Technologies used
 
-- Create products with unique names
-- Get all products
-- Purchase products and reduce available stock
-- Restock products and increase available stock
-- Store purchase/restock transaction history
-- Validate product price, stock, quantity, and product ID
+Node.js
+Express.js
+MongoDB
+Mongoose
 
-## Setup
+How to run the project
 
-1. Install dependencies:
+1. Open the project folder in the terminal.
+2. Run this command:
 
-```bash
 npm install
-```
 
-2. Create a `.env` file using `.env.example`.
+3. Create a .env file in the project root.
+4. Add your MongoDB connection string and port.
 
-3. Start the server:
+Example:
 
-```bash
-npm run dev
-```
-
-On Windows PowerShell, use:
-
-```bash
-npm.cmd run dev
-```
-
-## Environment Variables
-
-```env
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
-```
 
-If your local antivirus or network tool causes a MongoDB TLS certificate error during development, you can add:
+5. Start the server:
 
-```env
-MONGO_TLS_ALLOW_INVALID_CERTIFICATES=true
-```
+npm run dev
 
-## API Endpoints
+If you are using Windows PowerShell, you can also run:
 
-### Health Check
+npm.cmd run dev
 
-`GET /`
+Main API endpoints
 
-### Create Product
+GET /
+This checks if the server is running.
 
-`POST /products`
+POST /products
+This creates a new product.
 
-```json
-{
-  "name": "Laptop",
-  "price": 50000,
-  "stock": 10
-}
-```
+GET /products
+This shows all products.
 
-### Get Products
+POST /products/purchase
+This reduces stock after a purchase.
 
-`GET /products`
+POST /products/restock
+This increases stock after a restock.
 
-### Purchase Product
+GET /products/:productId/history
+This shows all transaction records for one product.
 
-`POST /products/purchase`
+Rules for the project
 
-```json
-{
-  "productId": "product_id_here",
-  "quantity": 2
-}
-```
+Product name must be unique.
+Price must be greater than zero.
+Stock cannot be negative.
+Purchase quantity must be greater than zero.
+Restock quantity must be greater than zero.
+You cannot purchase more than the available stock.
+Every successful purchase and restock is saved in the transaction table.
 
-### Restock Product
 
-`POST /products/restock`
-
-```json
-{
-  "productId": "product_id_here",
-  "quantity": 5
-}
-```
-
-### Product Transaction History
-
-`GET /products/:productId/history`
-
-## Business Rules
-
-- Product name must be unique.
-- Product price must be greater than zero.
-- Product stock cannot be negative.
-- Purchase quantity must be greater than zero.
-- Restock quantity must be greater than zero.
-- Purchase is not allowed if requested quantity exceeds available stock.
-- Every successful purchase creates a transaction record.
-- Every successful restock creates a transaction record.
